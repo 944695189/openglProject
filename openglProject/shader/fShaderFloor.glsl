@@ -46,7 +46,7 @@ vec3 estimateWaveNormal(float offset, float mapScale, float hScale)
 	return normEst;
 }
 
-//生成棋盘格效果
+//生成水底棋盘格效果
 vec3 checkerboard(vec2 tc)
 {	vec3 estNcb = estimateWaveNormal(.05, 32.0, 0.05);
 

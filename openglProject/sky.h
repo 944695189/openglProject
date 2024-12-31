@@ -10,9 +10,9 @@
 #include "glm/gtx/euler_angles.hpp"
 #include <string>
 #include <iostream>
-#include <fstream>// fstream是C++ STL中对文件操作的合集，包含了常用的所有文件操作
+#include <fstream>
 #include<vector>
-#include <math.h>
+#include <cmath>
 
 #define DEG2RAD(theta)		((theta * 2.0 * 3.14159)/360.0)
 

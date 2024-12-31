@@ -1,8 +1,7 @@
 #pragma once
-#include "Shader.h"
+#include "shader.h"
 void Shader::shader(const char* vertexPath, const char* fragmentPath)
 {
-  
     std::string vertexCode;
     std::string fragmentCode;
     std::ifstream vShaderFile;
@@ -44,82 +43,85 @@ void Shader::shader(const char* vertexPath, const char* fragmentPath)
     glDeleteShader(vertex);
     glDeleteShader(fragment);
 }
+//启用着色器
 void Shader::use()
 {
     glUseProgram(ID);
 }
-int Shader::GetUniformLocation(const char* name)
+int Shader::getUniformLocation(const char* name)
 {
 	std::map<string, int>::iterator pos;
-	pos = m_vUniformLocations.find(name);
+	pos = uniformLocations.find(name);
 
-	if (pos == m_vUniformLocations.end())
+	if (pos == uniformLocations.end())
 	{
-		m_vUniformLocations[name] = glGetUniformLocation(ID, name);
+		uniformLocations[name] = glGetUniformLocation(ID, name);
 
 	}
 
-	return m_vUniformLocations[name];
+	return uniformLocations[name];
 }
-void Shader::SetUniform(const char* name, float x, float y, float z)
+//绑定着色器关键字
+void Shader::setUniform(const char* name, float x, float y, float z)
 {
-	GLint loc = GetUniformLocation(name);
+	GLint loc = getUniformLocation(name);
 	glUniform3f(loc, x, y, z);
 }
 
-void Shader::SetUniform(const char* name, const vec3& v)
+void Shader::setUniform(const char* name, const vec3& v)
 {
-	this->SetUniform(name, v.x, v.y, v.z);
+	this->setUniform(name, v.x, v.y, v.z);
 }
 
-void Shader::SetUniform(const char* name, const vec4& v)
+void Shader::setUniform(const char* name, const vec4& v)
 {
-	GLint loc = GetUniformLocation(name);
+	GLint loc = getUniformLocation(name);
 	glUniform4f(loc, v.x, v.y, v.z, v.w);
 }
 
-void Shader::SetUniform(const char* name, const vec2& v)
+void Shader::setUniform(const char* name, const vec2& v)
 {
-	GLint loc = GetUniformLocation(name);
+	GLint loc = getUniformLocation(name);
 	glUniform2f(loc, v.x, v.y);
 }
 
-void Shader::SetUniform(const char* name, const mat4& m)
+void Shader::setUniform(const char* name, const mat4& m)
 {
-	GLint loc = GetUniformLocation(name);
+	GLint loc = getUniformLocation(name);
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
-void Shader::SetUniform(const char* name, const mat3& m)
+void Shader::setUniform(const char* name, const mat3& m)
 {
-	GLint loc = GetUniformLocation(name);
+	GLint loc = getUniformLocation(name);
 	glUniformMatrix3fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
-void Shader::SetUniform(const char* name, float val)
+void Shader::setUniform(const char* name, float val)
 {
-	GLint loc = GetUniformLocation(name);
+	GLint loc = getUniformLocation(name);
 	glUniform1f(loc, val);
 }
 
-void Shader::SetUniform(const char* name, int val)
+void Shader::setUniform(const char* name, int val)
 {
-	GLint loc = GetUniformLocation(name);
+	GLint loc = getUniformLocation(name);
 	glUniform1i(loc, val);
 }
 
-void Shader::SetUniform(const char* name, GLuint val)
+void Shader::setUniform(const char* name, GLuint val)
 {
-	GLint loc = GetUniformLocation(name);
+	GLint loc = getUniformLocation(name);
 	glUniform1ui(loc, val);
 }
 
-void Shader::SetUniform(const char* name, bool val)
+void Shader::setUniform(const char* name, bool val)
 {
-	int loc = GetUniformLocation(name);
+	int loc = getUniformLocation(name);
 	glUniform1i(loc, val);
-} 
-void Shader::Unuse()
+}
+//关闭shader
+void Shader::unuse()
 {
     glUseProgram(0);
 }

@@ -1,6 +1,6 @@
 #pragma once
-#include "Sphere.h"
-#include <math.h>
+#include "sphere.h"
+#include <cmath>
 #include <GL/glew.h>//OpenGL库
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
@@ -9,10 +9,9 @@
 using glm::vec4;
 using namespace std;
 #define PI 3.14259
-extern vec3 lightPo = glm::vec3(1, -1, 1);
-extern vec3 viewPos = glm::vec3(7, 20, 1);
-
-extern vec3 lightcolor = glm::vec3(1, 1, 1);
+extern vec3 lightPosition = glm::vec3(1, -1, 1);
+extern vec3 viewPosition = glm::vec3(7, 20, 1);
+extern vec3 lightColor = glm::vec3(1, 1, 1);
 
 extern vec3 Ka = vec3(0.5f, 0.5f, 0.5f);//环境光
 extern vec3 Kd = vec3(0.5f, 0.5f, 0.5f);//漫反射光
@@ -20,29 +19,18 @@ extern vec3 Ks = vec3(1.0f, 1.0f, 1.0f);//镜面反射光
 
 extern int shiness = 6;//高光系数
 
-Sphere::Sphere(void)
-{
-
-}
-
-
 Sphere::~Sphere(void)
 {
 	glDeleteBuffers(2, vboHandle);//释放显存缓冲区
 	glDeleteVertexArrays(1, &vaoHandle);//删除顶点数组对象
 }
 
-
-
-void Sphere::InitData(float r)
+void Sphere::initData(float r)
 {
 	fR = r;
-
-	//vTris.clear();
 	//生成球心在坐标原点的球面三角网
-	int m = 40;//水平方向圆离散化多边形边数
-	int n = 40;//垂直方向切片个数
-
+	int m = 40;
+	int n = 40;
 	iCount = m * n * 2;
 	//定义顶点数组
 	float* vertc = new float[3 * 3 * iCount];
@@ -68,7 +56,7 @@ void Sphere::InitData(float r)
 		float r0 = fR * cos(beta);
 		float r1 = fR * cos(beta + dbeta);
 
-		float t1 = beta / PI + 0.5f;
+		float t1 = (float)(beta / PI + 0.5f);
 		float t2 = (beta + dbeta) / PI + 0.5f;
 
 		beta += dbeta;
@@ -88,7 +76,6 @@ void Sphere::InitData(float r)
 
 			float s1 = alpha / (2.0f * PI);
 			float s2 = (alpha + dalpha) / (2.0f * PI);
-			//四边形分成2个三角形
 			//构建第1个三角形
 			vertc[vindex++] = x01; vertc[vindex++] = y01; vertc[vindex++] = z1;
 			//法向量
@@ -156,21 +143,19 @@ void Sphere::InitData(float r)
 	
 }
 
-void Sphere::SetTexture(GLuint texture)
+void Sphere::setTexture(GLuint texture)
 {
 	textureID = texture;
 }
 
-void Sphere::LoadShader(const char* vsfileName, const char* fsfileName)
+void Sphere::loadShader(const char* vsfileName, const char* fsfileName)
 {
 	prog.shader(vsfileName, fsfileName);
 }
 
-void Sphere::Render()
+void Sphere::render()
 {
-	//启用需要的shader，可以动态切换不同的shader
 	prog.use();
-	////model在头文件里定义了
 	glm::mat4 model1 = mat4(1.0f);
 	model = glm::translate(model, glm::vec3(3.0f, .0f, .0f));
 	model = glm::rotate(model, float(.01f), glm::vec3(.0, 1.0, .0));
@@ -178,18 +163,17 @@ void Sphere::Render()
 	model1 = glm::rotate(mat4(1.0f), float(.05f), glm::vec3(1.0, .0, .0));
 	model = model1*model;
 	//model *= model2;
-	prog.SetUniform("ProjectionMatrix", projectionMat);
-	prog.SetUniform("ViewMatrix", viewMat);
-	prog .SetUniform("ModelMatrix", model);//ModelMatrix、ViewMatrix和ProjectionMatrix都是在shader中定义的uniform mat4 变量
-	//model更多意义上是初始化作用，将model传给ModelMatrix，ModelMatrix在于shader中获取的的顶点数据等计算
-	prog.SetUniform("lightColor", lightcolor);
-	prog.SetUniform("lightPos", lightPo);
-	prog.SetUniform("viewPos", viewPos);
+	prog.setUniform("ProjectionMatrix", projectionMat);
+	prog.setUniform("ViewMatrix", viewMat);
+	prog .setUniform("ModelMatrix", model);
+	prog.setUniform("lightColor", lightColor);
+	prog.setUniform("lightPos", lightPosition);
+	prog.setUniform("viewPos", viewPosition);
 
-	prog.SetUniform("Ka", Ka);
-	prog.SetUniform("Kd", Kd);
-	prog.SetUniform("Ks", Ks);
-	prog.SetUniform("shiness", shiness);
+	prog.setUniform("Ka", Ka);
+	prog.setUniform("Kd", Kd);
+	prog.setUniform("Ks", Ks);
+	prog.setUniform("shiness", shiness);
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textureID);
@@ -200,10 +184,7 @@ void Sphere::Render()
 	glBindVertexArray(0);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-
-	//关闭所用的shader
-	prog.Unuse();
+	prog.unuse();
 	
 }
 

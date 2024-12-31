@@ -157,22 +157,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Sphere.cpp" />
-    <ClCompile Include="importmodel.cpp" />
+    <ClCompile Include="sphere.cpp" />
+    <ClCompile Include="importModel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="model.cpp" />
-    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="shader.cpp" />
     <ClCompile Include="sky.cpp" />
     <ClCompile Include="noisePattern.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="noisePattern.h" />
-    <ClInclude Include="Sphere.h" />
-    <ClInclude Include="importmodel.h" />
+    <ClInclude Include="sphere.h" />
+    <ClInclude Include="importModel.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />
-    <ClInclude Include="Shader.h" />
+    <ClInclude Include="shader.h" />
     <ClInclude Include="sky.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

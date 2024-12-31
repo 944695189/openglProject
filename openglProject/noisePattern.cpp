@@ -22,24 +22,19 @@ double noisePattern::smoothNoise(double zoom, double x1, double y1, double z1) {
 	value += (1.0 - fractX) * fractY * (1.0 - fractZ) * noiseMat[(int)x2][(int)y1][(int)z2];
 	value += fractX * (1.0 - fractY) * (1.0 - fractZ) * noiseMat[(int)x1][(int)y2][(int)z2];
 	value += (1.0 - fractX) * (1.0 - fractY) * (1.0 - fractZ) * noiseMat[(int)x2][(int)y2][(int)z2];
-
 	return value;
 }
 
 double noisePattern::turbulence(double x, double y, double z, double maxZoom) {
 	double sum = 0.0, zoom = maxZoom;
-
 	sum = (sin((1.0 / 512.0) * (8 * PI) * (x + z - 4 * y)) + 1) * 8.0;
-
 	while (zoom >= 0.9) {
 		sum = sum + smoothNoise(zoom, x / zoom, y / zoom, z / zoom) * zoom;
 		zoom = zoom / 2.0;
 	}
-
 	sum = 128.0 * sum / maxZoom;
 	return sum;
 }
-
 void noisePattern::fillDataArray(GLubyte data[]) {
 	double maxZoom = 32.0;
 	for (int i = 0; i < noiseHeight; i++) {
@@ -53,7 +48,6 @@ void noisePattern::fillDataArray(GLubyte data[]) {
 		}
 	}
 }
-
 void  noisePattern::generateNoise() {
 	for (int x = 0; x < noiseHeight; x++) {
 		for (int y = 0; y < noiseWidth; y++) {

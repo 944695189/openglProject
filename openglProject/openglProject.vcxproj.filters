@@ -17,19 +17,19 @@
     <ClCompile Include="sky.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Sphere.cpp">
+    <ClCompile Include="sphere.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="mesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
+    <ClCompile Include="shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="importmodel.cpp">
+    <ClCompile Include="importModel.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="noisePattern.cpp">
@@ -40,19 +40,19 @@
     <ClInclude Include="sky.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Sphere.h">
+    <ClInclude Include="sphere.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="model.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="importmodel.h">
+    <ClInclude Include="importModel.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="noisePattern.h">

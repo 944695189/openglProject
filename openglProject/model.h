@@ -13,18 +13,17 @@ unsigned int TextureFromFile(const char* path, const string& directory, bool gam
 class Model
 {
 public:
-    vector<Texture> textures_loaded;	
-    vector<Mesh>    meshes;
+    vector<Texture> texturesLoaded;	
+    vector<Mesh>  meshes;
     string directory;
     bool gammaCorrection;
-    Model() {}
     void model(string const& path, bool gamma = false) 
     {
         gammaCorrection = gamma;
         loadModel(path);
     }
 
-    void Draw(Shader& shader);
+    void draw(Shader& shader);
 
 private:  
     void loadModel(string const& path);

@@ -1,19 +1,18 @@
 #pragma once
-
-#include "Shader.h"
-
+#include "shader.h"
 #define MAX_BONE_INFLUENCE 4
+
 struct Vertex {//定义顶点变量
-    glm::vec3 Position;
-    glm::vec3 Normal;
-    glm::vec2 TexCoords;
-    glm::vec3 Tangent;
-    glm::vec3 Bitangent;
-    int m_BoneIDs[MAX_BONE_INFLUENCE];
-    float m_Weights[MAX_BONE_INFLUENCE];
+    glm::vec3 position;
+    glm::vec3 normal;
+    glm::vec2 texCoords;
+    glm::vec3 tangent;
+    glm::vec3 bitangent;
+    int boneIDs[MAX_BONE_INFLUENCE];
+    float weights[MAX_BONE_INFLUENCE];
 };
 struct Texture {//定义纹理变量
-    unsigned int id;
+    unsigned int id=0;
     string type;
     string path;
 };
@@ -23,12 +22,9 @@ public:
     vector<unsigned int> indices;
     vector<Texture>      textures;
     unsigned int VAO;
-    /*  函数  */
     Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
     void Draw(Shader shader);
 private:
-    /*  渲染数据  */
     unsigned int VBO, EBO;
-    /*  函数  */
     void setupMesh();
 };

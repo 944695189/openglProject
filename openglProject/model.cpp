@@ -1,12 +1,11 @@
 #include"model.h"
-void Model::Draw(Shader& shader)
+void Model::draw(Shader& shader)
 {
     for (unsigned int i = 0; i < meshes.size(); i++)
         meshes[i].Draw(shader);
 }
 void Model::loadModel(string const& path)
-{
-    
+{    
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
@@ -15,7 +14,6 @@ void Model::loadModel(string const& path)
         return;
     }
     directory = path.substr(0, path.find_last_of('/'));
-
     processNode(scene->mRootNode, scene);
 }
 void Model::processNode(aiNode* node, const aiScene* scene)
@@ -31,14 +29,12 @@ void Model::processNode(aiNode* node, const aiScene* scene)
     {
         processNode(node->mChildren[i], scene);
     }
-
 }
 Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
     vector<Vertex> vertices;
     vector<unsigned int> indices;
     vector<Texture> textures;
-
     for (unsigned int i = 0; i < mesh->mNumVertices; i++)
     {
         Vertex vertex;
@@ -46,32 +42,31 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
         vector.x = mesh->mVertices[i].x;
         vector.y = mesh->mVertices[i].y;
         vector.z = mesh->mVertices[i].z;
-        vertex.Position = vector;
+        vertex.position = vector;
         if (mesh->HasNormals())
         {
             vector.x = mesh->mNormals[i].x;
             vector.y = mesh->mNormals[i].y;
             vector.z = mesh->mNormals[i].z;
-            vertex.Normal = vector;
+            vertex.normal = vector;
         }
         if (mesh->mTextureCoords[0]) 
         {
             glm::vec2 vec;
             vec.x = mesh->mTextureCoords[0][i].x;
             vec.y = mesh->mTextureCoords[0][i].y;
-            vertex.TexCoords = vec;
+            vertex.texCoords = vec;
             vector.x = mesh->mTangents[i].x;
             vector.y = mesh->mTangents[i].y;
             vector.z = mesh->mTangents[i].z;
-            vertex.Tangent = vector;
+            vertex.tangent = vector;
             vector.x = mesh->mBitangents[i].x;
             vector.y = mesh->mBitangents[i].y;
             vector.z = mesh->mBitangents[i].z;
-            vertex.Bitangent = vector;
+            vertex.bitangent = vector;
         }
         else
-            vertex.TexCoords = glm::vec2(0.0f, 0.0f);
-
+            vertex.texCoords = glm::vec2(0.0f, 0.0f);
         vertices.emplace_back(vertex);
     }
     for (unsigned int i = 0; i < mesh->mNumFaces; i++)
@@ -99,11 +94,11 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
         aiString str;
         mat->GetTexture(type, i, &str);
         bool skip = false;
-        for (unsigned int j = 0; j < textures_loaded.size(); j++)
+        for (unsigned int j = 0; j < texturesLoaded.size(); j++)
         {
-            if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
+            if (std::strcmp(texturesLoaded[j].path.data(), str.C_Str()) == 0)
             {
-                textures.emplace_back(textures_loaded[j]);
+                textures.emplace_back(texturesLoaded[j]);
                 skip = true; 
                 break;
             }
@@ -115,7 +110,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
             texture.type = typeName;
             texture.path = str.C_Str();
             textures.emplace_back(texture);
-            textures_loaded.emplace_back(texture);
+            texturesLoaded.emplace_back(texture);
         }
     }
     return textures;
@@ -125,7 +120,6 @@ unsigned int TextureFromFile(const char* path, const string& directory, bool gam
 {
     string filename = string(path);
     filename = directory + '/' + filename;
-
     unsigned int textureID;
     glGenTextures(1, &textureID);
 
@@ -133,7 +127,7 @@ unsigned int TextureFromFile(const char* path, const string& directory, bool gam
     unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
     if (data)
     {
-        GLenum format;
+        GLenum format=0;
         if (nrComponents == 1)
             format = GL_RED;
         else if (nrComponents == 3)
@@ -157,6 +151,5 @@ unsigned int TextureFromFile(const char* path, const string& directory, bool gam
         std::cout << "Texture failed to load at path: " << path << std::endl;
         stbi_image_free(data);
     }
-
     return textureID;
 }

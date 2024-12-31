@@ -4,8 +4,6 @@ using std::string;
 using std::cout;
 using std::endl;
 //¼ÓÔØÍ¼Æ¬
-//sky::sky() {}
-
 GLuint sky::loadCubeMap(const char* mapDir)
 {
 	GLuint textureRef;
