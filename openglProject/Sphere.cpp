@@ -140,9 +140,7 @@ void Sphere::initData(float r)
 	delete[]vertc;
 	delete[]textcor;
 	delete[]normal;
-	
 }
-
 void Sphere::setTexture(GLuint texture)
 {
 	textureID = texture;
